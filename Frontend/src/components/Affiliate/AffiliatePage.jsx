@@ -32,6 +32,7 @@ const AffiliatePage = () => {
               Join as an Affiliate
             </Button>
             </Link>
+            <Link to="/login">
             <Button
               size="lg"
               bg="gray.300"
@@ -40,6 +41,7 @@ const AffiliatePage = () => {
             >
               Refer Talent Now
             </Button>
+            </Link>
           </HStack>
         </VStack>
       </Container>

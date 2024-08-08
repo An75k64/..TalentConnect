@@ -9,18 +9,41 @@ import {
   Text,
   useColorModeValue,
   Divider,
-  Link,
   Image,
-  Icon
+  Icon,
+  Alert,
+  AlertIcon,
+  Link as ChakraLink
 } from "@chakra-ui/react";
-import { FaUserShield, FaUserGraduate, FaUserFriends } from "react-icons/fa"; // Placeholder icons
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate for programmatic navigation
+import { FaUserShield, FaUserGraduate, FaUserFriends } from "react-icons/fa";
 import LoginImage from "../assets/images/Login/log.svg";
 import RegisterImage from "../assets/images/Login/register.svg";
 
+const RoleButton = ({ role, currentRole, onClick, ariaLabel }) => (
+  <Button
+    variant="link"
+    onClick={() => onClick(role)}
+    isActive={currentRole === role}
+    aria-label={ariaLabel}
+  >
+    {role.charAt(0).toUpperCase() + role.slice(1)}
+  </Button>
+);
+
+const FormError = ({ error }) => (
+  error ? (
+    <Alert status="error">
+      <AlertIcon />
+      {error}
+    </Alert>
+  ) : null
+);
+
 export default function LoginPage() {
+  const navigate = useNavigate(); // Hook for navigation
   const [isSignUp, setIsSignUp] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isAffiliate, setIsAffiliate] = useState(false);
+  const [role, setRole] = useState("affiliate"); // Track the role
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -36,16 +59,16 @@ export default function LoginPage() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (isAdmin) {
-      console.log("Admin login");
-    } else {
-      console.log("Student/Affiliate login");
-    }
+    console.log(`${role} login`, formData);
     // Implement actual login logic
   };
 
+  
   const handleSignUp = (e) => {
     e.preventDefault();
+
+    
+
     const { password, confirmPassword } = formData;
     if (password !== confirmPassword) {
       setError("Passwords do not match!");
@@ -65,37 +88,61 @@ export default function LoginPage() {
   };
 
   const toggleSignUp = () => {
+    if (role === "affiliate") {
+      navigate("/affiliate-form"); // Navigate to affiliate form
+      return;
+    }
     setIsSignUp(!isSignUp);
     setError("");
   };
 
   const toggleRole = (role) => {
-    setIsAdmin(role === "admin");
-    setIsAffiliate(role === "affiliate");
+    setRole(role);
     setIsSignUp(false);
     setError("");
   };
 
   return (
-    <Flex minH={"100vh"} align={"center"} justify={"center"} bg={useColorModeValue("gray.50", "gray.800")} mt={"50"}>
-      <Flex w="full" maxW="1200px" mx="auto" direction={{ base: "column", md: "row" }}>
-        {/* Conditional layout based on isSignUp state */}
-        {isSignUp ? (
+    <Flex
+      minH={"100vh"}
+      align={"center"}
+      justify={"center"}
+      bg={useColorModeValue("gray.50", "gray.800")}
+      mt={"50"}
+    >
+      <Flex
+        w="full"
+        maxW="1200px"
+        mx="auto"
+        direction={{ base: "column", md: "row" }}
+      >
+        {isSignUp && role === "student" ? (
           <>
-            <Box flex="1" p={8} display="flex" flexDirection="column" alignItems="center" justifyContent="center">
+            <Box
+              flex="1"
+              p={8}
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+            >
               <Stack spacing={4} textAlign="center">
                 <Flex justify="center" mb={4}>
                   <Icon
-                    as={isAdmin ? FaUserShield : isAffiliate ? FaUserFriends : FaUserGraduate}
+                    as={FaUserGraduate}
                     boxSize={10}
                     color={useColorModeValue("blue.400", "blue.300")}
                     zIndex="docked" // Ensure the icon is above other elements
                   />
                 </Flex>
                 <Heading fontSize={"4xl"} mb={4}>
-                  {isAdmin ? "Admin Sign Up" : isAffiliate ? "Affiliate Sign Up" : "Student Sign Up"}
+                  Student Sign Up
                 </Heading>
-                <Image src={RegisterImage} alt="Register Illustration" objectFit="cover" />
+                <Image
+                  src={RegisterImage}
+                  alt="Register illustration showing a person signing up"
+                  objectFit="cover"
+                />
               </Stack>
             </Box>
             <Box flex="1" p={8}>
@@ -105,7 +152,12 @@ export default function LoginPage() {
                     Create an account to get started!
                   </Text>
                 </Stack>
-                <Box rounded={"lg"} bg={useColorModeValue("white", "gray.700")} boxShadow={"lg"} p={8}>
+                <Box
+                  rounded={"lg"}
+                  bg={useColorModeValue("white", "gray.700")}
+                  boxShadow={"lg"}
+                  p={8}
+                >
                   <Stack spacing={4}>
                     <Input
                       type="text"
@@ -139,7 +191,7 @@ export default function LoginPage() {
                       placeholder="Confirm Password"
                       isRequired
                     />
-                    {error && <Text color="red.500">{error}</Text>}
+                    <FormError error={error} />
                     <Button
                       bg={"blue.400"}
                       color={"white"}
@@ -156,24 +208,43 @@ export default function LoginPage() {
                     <Stack pt={6} spacing={4}>
                       <Text align={"center"}>
                         Already have an account?{" "}
-                        <Link color={"blue.400"} onClick={toggleSignUp}>
-                          Login
-                        </Link>
+                        <ChakraLink
+                          color={"blue.400"}
+                          onClick={toggleSignUp}
+                          as="span"
+                          cursor="pointer"
+                        >
+                          Sign In
+                        </ChakraLink>
                       </Text>
                     </Stack>
                   </Stack>
                 </Box>
                 <Divider />
-                <Stack direction={"row"} spacing={4} justify={"center"} mt={4}>
-                  <Button variant="link" onClick={() => toggleRole("admin")} isActive={isAdmin}>
-                    Admin
-                  </Button>
-                  <Button variant="link" onClick={() => toggleRole("student")} isActive={!isAdmin && !isAffiliate}>
-                    Student
-                  </Button>
-                  <Button variant="link" onClick={() => toggleRole("affiliate")} isActive={isAffiliate}>
-                    Affiliate
-                  </Button>
+                <Stack
+                  direction={"row"}
+                  spacing={4}
+                  justify={"center"}
+                  mt={4}
+                >
+                  <RoleButton
+                    role="admin"
+                    currentRole={role}
+                    onClick={toggleRole}
+                    ariaLabel="Admin Role"
+                  />
+                  <RoleButton
+                    role="student"
+                    currentRole={role}
+                    onClick={toggleRole}
+                    ariaLabel="Student Role"
+                  />
+                  <RoleButton
+                    role="affiliate"
+                    currentRole={role}
+                    onClick={toggleRole}
+                    ariaLabel="Affiliate Role"
+                  />
                 </Stack>
               </Stack>
             </Box>
@@ -185,7 +256,13 @@ export default function LoginPage() {
                 <Stack align={"center"} spacing={4}>
                   <Flex justify="center" mb={4}>
                     <Icon
-                      as={isAdmin ? FaUserShield : isAffiliate ? FaUserFriends : FaUserGraduate}
+                      as={
+                        role === "affiliate"
+                          ? FaUserFriends
+                          : role === "admin"
+                          ? FaUserShield
+                          : FaUserGraduate
+                      }
                       boxSize={10}
                       color={useColorModeValue("blue.400", "blue.300")}
                       zIndex="docked" // Ensure the icon is above other elements
@@ -195,7 +272,12 @@ export default function LoginPage() {
                     Welcome back!
                   </Text>
                 </Stack>
-                <Box rounded={"lg"} bg={useColorModeValue("white", "gray.700")} boxShadow={"lg"} p={8}>
+                <Box
+                  rounded={"lg"}
+                  bg={useColorModeValue("white", "gray.700")}
+                  boxShadow={"lg"}
+                  p={8}
+                >
                   <Stack spacing={4}>
                     <Input
                       type="email"
@@ -213,7 +295,7 @@ export default function LoginPage() {
                       placeholder="Password"
                       isRequired
                     />
-                    {error && <Text color="red.500">{error}</Text>}
+                    <FormError error={error} />
                     <Button
                       bg={"blue.400"}
                       color={"white"}
@@ -222,40 +304,74 @@ export default function LoginPage() {
                       }}
                       onClick={handleLogin}
                     >
-                      Login
+                      Sign In
                     </Button>
-                    {!isAdmin && (
+                    {role !== "admin" && (
                       <Stack pt={6} spacing={4}>
                         <Text align={"center"}>
                           New user?{" "}
-                          <Link color={"blue.400"} onClick={toggleSignUp}>
+                          <ChakraLink
+                            color={"blue.400"}
+                            onClick={toggleSignUp}
+                            as="span"
+                            cursor="pointer"
+                          >
                             Sign Up
-                          </Link>
+                          </ChakraLink>
                         </Text>
                       </Stack>
                     )}
                   </Stack>
                 </Box>
                 <Divider />
-                <Stack direction={"row"} spacing={4} justify={"center"} mt={4}>
-                  <Button variant="link" onClick={() => toggleRole("admin")} isActive={isAdmin}>
-                    Admin
-                  </Button>
-                  <Button variant="link" onClick={() => toggleRole("student")} isActive={!isAdmin && !isAffiliate}>
-                    Student
-                  </Button>
-                  <Button variant="link" onClick={() => toggleRole("affiliate")} isActive={isAffiliate}>
-                    Affiliate
-                  </Button>
+                <Stack
+                  direction={"row"}
+                  spacing={4}
+                  justify={"center"}
+                  mt={4}
+                >
+                  <RoleButton
+                    role="admin"
+                    currentRole={role}
+                    onClick={toggleRole}
+                    ariaLabel="Admin Role"
+                  />
+                  <RoleButton
+                    role="student"
+                    currentRole={role}
+                    onClick={toggleRole}
+                    ariaLabel="Student Role"
+                  />
+                  <RoleButton
+                    role="affiliate"
+                    currentRole={role}
+                    onClick={toggleRole}
+                    ariaLabel="Affiliate Role"
+                  />
                 </Stack>
               </Stack>
             </Box>
-            <Box flex="1" p={8} display="flex" flexDirection="column" alignItems="center" justifyContent="center">
-              <Stack spacing={4} textAlign="center">
+            <Box
+              flex="1"
+              p={8}
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+            >
+               <Stack spacing={4} textAlign="center">
                 <Heading fontSize={"4xl"} mb={4}>
-                  {isAdmin ? "Admin Login" : isAffiliate ? "Affiliate Login" : "Student Login"}
+                  {role === "affiliate"
+                    ? "Affiliate Sign In"
+                    : role === "admin"
+                    ? "Admin Sign In"
+                    : "Student Sign In"}
                 </Heading>
-                <Image src={LoginImage} alt="Login Illustration" objectFit="cover" />
+                <Image
+                  src={LoginImage}
+                  alt="Login Illustration"
+                  objectFit="cover"
+                />
               </Stack>
             </Box>
           </>
