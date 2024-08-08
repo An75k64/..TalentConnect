@@ -4,6 +4,7 @@ import {
   Flex,
   IconButton,
   Stack,
+  Button,
   Collapse,
   useColorModeValue,
   useDisclosure,
@@ -77,13 +78,25 @@ const Header = () => {
             <DesktopNav />
           </Flex>
         </Flex>
+        
         <Stack
           flex={{ base: 1, md: 0 }}
           justify={"flex-end"}
           direction={"row"}
           spacing={6}
         >
-          {/* Add your buttons or links here */}
+           <Button
+            as={Link}
+            to="/login" // Update to your sign-in page route
+             bg={'blue.400'}
+             rounded={'full'}
+             color={'white'}
+            _hover={{ transform: "scale(1.05)", boxShadow: "lg" }}
+            
+          >
+            Sign In
+          </Button>
+          
         </Stack>
       </Flex>
       <Collapse in={isOpen} animateOpacity>

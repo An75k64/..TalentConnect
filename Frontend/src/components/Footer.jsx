@@ -132,6 +132,9 @@ export default function Footer() {
               <Text fontWeight="bold" as={Link} to="/contact">
                 Contact Us
               </Text>
+               <Text fontWeight="bold" as={Link} to="/login">
+                Sign In
+              </Text>
             </Stack>
           </Stack>
         </SimpleGrid>

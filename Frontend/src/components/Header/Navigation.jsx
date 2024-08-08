@@ -46,6 +46,7 @@ const NAV_ITEMS = [
   { label: "CampusToCubicle", href: "/campus-to-cubicle" },
   { label: "Affiliate", href: "/affiliate" },
   { label: "Contact us", href: "/contact" },
+  
 ];
 
 const DesktopNav = () => {

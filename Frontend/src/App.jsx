@@ -3,6 +3,8 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop.jsx"; // Import the ScrollToTop component
 import Home from "./pages/Home.jsx";
+import Login from "./pages/Login.jsx";
+
 import Services from "./pages/Services.jsx";
 
 import Jobs from "./pages/Jobs.jsx";
@@ -37,6 +39,9 @@ const App = () => {
         <Header /> {/* Render Header at the top of all pages */}
         <Routes>
           <Route path="/" element={<Home />} />
+
+          <Route path="/login" element={<Login />} />
+
           <Route path="/services" element={<Services />} />
           <Route path="/oncampus" element={<OnCampus />} />
           <Route path="/offcampus" element={<OffCampus />} />
