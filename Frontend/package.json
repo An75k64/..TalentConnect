@@ -25,6 +25,7 @@
     "react-router-dom": "^6.26.0",
     "react-router-hash-link": "^2.4.3",
     "react-spring": "^9.7.4",
+    "recharts": "^2.12.7",
     "yup": "^1.4.0"
   },
   "devDependencies": {
