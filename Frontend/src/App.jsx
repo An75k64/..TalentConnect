@@ -24,6 +24,8 @@ import Counselling from "./components/Service/Counselling/Counselling.jsx"
 import Workforce from "./components/Service/Workforce/Workforce.jsx"
 import CareerCraft from "./components/Service/CareerCraft/CareerCraft.jsx"
 import AffiliateForm from "./components/Affiliate/AffiliateForm.jsx";
+import OpeningForm from "./components/Jobs/Openings/Openingform.jsx";
+
 
 
 
@@ -49,6 +51,7 @@ const App = () => {
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/jobs/post-resume" element={<PostResume />} />
           <Route path="/jobs/current-opening" element={<CurrentOpening />} />
+          <Route path="/jobs/opening-form" element={<OpeningForm />} />
 
           <Route path="/employer" element={<Employer />} />
 

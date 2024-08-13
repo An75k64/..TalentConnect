@@ -10,6 +10,7 @@ const collegeRouter = require("./routes/collegeRoutes");
 const companyRouter = require("./routes/companyRoutes");
 const contactRouter = require("./routes/contactRoutes");
 const affiliateRoutes = require("./routes/affiliateRoutes");
+const jobApplicationRoutes = require('./routes/jobApplicationRoutes');
 
 
 
@@ -45,6 +46,30 @@ app.use("/api",contactRouter);
 
 //use the affiliate router
 app.use("/api", affiliateRoutes);
+
+//use the job router
+app.use("/api", jobApplicationRoutes);
+
+// cards api starts
+const CardSchema = new mongoose.Schema({
+  id: String,
+  title: String,
+  location: String,
+  salary: String,
+  experience: String,
+  
+  });
+  
+  const Card = mongoose.model('Card', CardSchema);
+app.get('/api/cards', async (req, res) => {
+  try {
+    const cards = await Card.find();
+    res.json(cards);
+  } catch (error) {
+    res.status(500).send('Server Error');
+  }
+});
+//cards api ends
 
 // Default route for the root URL
 app.get("/", (req, res) => {
