@@ -10,13 +10,16 @@ function Section1() {
         'url(https://images.unsplash.com/photo-1560439513-74b037a25d84?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)'
       }
       backgroundSize={'cover'}
-      backgroundPosition={'center center'}>
+      backgroundPosition={'center center'}
+      objectFit={'cover'}
+      
+      >
       <VStack
         w={'full'}
         justify={'center'}
         px={useBreakpointValue({ base: 4, md: 8 })}
         bgGradient={'linear(to-r, blackAlpha.600, transparent)'}>
-        <Stack maxW={'2xl'} align={'flex-start'} spacing={6} >
+        <Stack maxW={'4xl'} align={'flex-start'} spacing={6}>
           <Text
             color={'white'}
             fontWeight={700}
@@ -44,7 +47,7 @@ function Section1() {
               rounded={'full'}
               color={'white'}
               _hover={{ bg: 'blue.500' }}>
-              Sign Up
+              Employer Enrollment
             </Button>
           </Stack>
         </Stack>

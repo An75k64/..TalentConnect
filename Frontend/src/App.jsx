@@ -24,9 +24,8 @@ import Counselling from "./components/Service/Counselling/Counselling.jsx";
 import Workforce from "./components/Service/Workforce/Workforce.jsx";
 import CareerCraft from "./components/Service/CareerCraft/CareerCraft.jsx";
 import AffiliateForm from "./components/Affiliate/AffiliateForm.jsx";
-import AffiliateDashboard from "./pages/AffiliateDashboard.jsx";
-import AffiliateHeader from "./components/AffiliateDashboard/AffiliateHeader/AffiliateHeader.jsx";
-import AffiliateFooter from "./components/AffiliateDashboard/AffiliateFooter.jsx";
+
+
 
 const NotFound = () => <div>Page Not Found</div>;
 
@@ -47,33 +46,40 @@ const App = () => {
   return (
     <ChakraProvider>
       <Router>
-        <ScrollToTop />
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/oncampus" element={<OnCampus />} />
-            <Route path="/offcampus" element={<OffCampus />} />
-            <Route path="/seminar" element={<Seminar />} />
-            <Route path="/counselling" element={<Counselling />} />
-            <Route path="/careercraft" element={<CareerCraft />} />
-            <Route path="/workforce" element={<Workforce />} />
-            <Route path="/jobs" element={<Jobs />} />
-            <Route path="/jobs/post-resume" element={<PostResume />} />
-            <Route path="/jobs/current-opening" element={<CurrentOpening />} />
-            <Route path="/employer" element={<Employer />} />
-            <Route path="/college" element={<College />} />
-            <Route path="/campus-to-cubicle" element={<CampusToCubicle />} />
-            <Route path="/college-form" element={<CollegeForm />} />
-            <Route path="/company-form" element={<CompanyForm />} />
-            <Route path="/affiliate" element={<Affiliate />} />
-            <Route path="/affiliate-form" element={<AffiliateForm />} />
-            <Route path="/affiliate-dashboard" element={<AffiliateDashboard />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Layout>
+        <ScrollToTop /> {/* Add ScrollToTop here */}
+        <Header /> {/* Render Header at the top of all pages */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/oncampus" element={<OnCampus />} />
+          <Route path="/offcampus" element={<OffCampus />} />
+          <Route path="/seminar" element={<Seminar />} />
+          <Route path="/counselling" element={<Counselling />} />
+          <Route path="/careercraft" element={<CareerCraft />} />
+          <Route path="/workforce" element={<Workforce />} />
+        
+         
+          <Route path="/jobs" element={<Jobs />} />
+          <Route path="/jobs/post-resume" element={<PostResume />} />
+          <Route path="/jobs/current-opening" element={<CurrentOpening />} />
+
+          <Route path="/employer" element={<Employer />} />
+
+          <Route path="/college" element={<College />} />
+
+          <Route path="/campus-to-cubicle" element={<CampusToCubicle />} />
+          <Route path="/college-form" element={<CollegeForm />} />
+          <Route path="/company-form" element={<CompanyForm />} />
+          
+
+          <Route path="/affiliate" element={<Affiliate />} />
+          <Route path="/affiliate-form" element={<AffiliateForm />} />
+
+          <Route path="/contact" element={<Contact />} />
+
+          <Route path="*" element={<NotFound />} /> {/* Fallback route */}
+        </Routes>
+        <Footer /> {/* Render Footer at the bottom of all pages */}
       </Router>
     </ChakraProvider>
   );
