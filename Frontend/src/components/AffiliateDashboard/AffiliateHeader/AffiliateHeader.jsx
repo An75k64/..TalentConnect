@@ -105,11 +105,10 @@ const DesktopNav = () => {
   const linkHoverColor = useColorModeValue("blue.400", "blue.300");
 
   const NAV_ITEMS = [
-    { label: "Home", href: "/home" },
     { label: "Dashboard", href: "/dashboard" },
     { label: "Referrals", href: "/referrals" },
     { label: "Earnings", href: "/earnings" },
-    { label: "Resources", href: "/resources" },
+    { label: "Post a Job", href: "/postjob" },
     { label: "Support", href: "/support" },
   ];
 
@@ -142,11 +141,10 @@ const DesktopNav = () => {
 
 const MobileNav = () => {
   const NAV_ITEMS = [
-    { label: "Home", href: "/home" },
-    { label: "Dashboard", href: "/dashboard" },
+     { label: "Dashboard", href: "/dashboard" },
     { label: "Referrals", href: "/referrals" },
     { label: "Earnings", href: "/earnings" },
-    { label: "Resources", href: "/resources" },
+    { label: "Post a Job", href: "/postjob" },
     { label: "Support", href: "/support" },
   ];
 

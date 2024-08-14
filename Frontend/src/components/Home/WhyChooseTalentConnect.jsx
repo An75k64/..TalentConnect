@@ -1,4 +1,4 @@
-"use client";
+
 
 import { ReactElement } from "react";
 import { Box, SimpleGrid, Icon, Text, Stack, Flex } from "@chakra-ui/react";
