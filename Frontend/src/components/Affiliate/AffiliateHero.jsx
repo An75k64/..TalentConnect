@@ -1,8 +1,24 @@
-import React from 'react';
-import { Box, Heading, Text, Button, VStack, Container, HStack, Image } from '@chakra-ui/react';
-import affiliateImage from '../../assets/images/1688543157326.png';
+import React from "react";
+import {
+  Box,
+  Heading,
+  Text,
+  Button,
+  VStack,
+  Container,
+  HStack,
+  Image,
+} from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import affiliateImage from "../../assets/images/1688543157326.png";
 
 const AffiliateHero = () => {
+  const navigate = useNavigate();
+
+  const handleSignInRedirect = () => {
+    navigate("/login"); // Change this path to match your Affiliate Sign In route
+  };
+
   return (
     <Box
       color="blue.400"
@@ -18,7 +34,10 @@ const AffiliateHero = () => {
               Empower Careers Together
             </Heading>
             <Text fontSize="xl" textColor="black">
-              Join our affiliate program and become a part of the TalentConnect network. As an affiliate, you can help us reach more job seekers and employers, expanding our impact and creating more opportunities for success.
+              Join our affiliate program and become a part of the TalentConnect
+              network. As an affiliate, you can help us reach more job seekers
+              and employers, expanding our impact and creating more
+              opportunities for success.
             </Text>
             <HStack spacing={4}>
               <Button
@@ -27,6 +46,7 @@ const AffiliateHero = () => {
                 rounded="full"
                 color="white"
                 _hover={{ transform: "scale(1.05)", boxShadow: "lg" }}
+                onClick={handleSignInRedirect}
               >
                 Post a Job
               </Button>
@@ -35,6 +55,7 @@ const AffiliateHero = () => {
                 bg="gray.300"
                 rounded="full"
                 _hover={{ transform: "scale(1.05)", boxShadow: "lg" }}
+                onClick={handleSignInRedirect}
               >
                 Refer Talent
               </Button>
@@ -64,7 +85,7 @@ const AffiliateHero = () => {
               animation="bubble 7s infinite"
               zIndex="1"
             />
-            
+
             <Box
               position="absolute"
               bottom="-30px"

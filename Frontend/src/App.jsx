@@ -1,10 +1,10 @@
 import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ScrollToTop from "./components/ScrollToTop.jsx"; // Import the ScrollToTop component
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 import Home from "./pages/Home.jsx";
+import Login from "./pages/Login.jsx";
 import Services from "./pages/Services.jsx";
-
 import Jobs from "./pages/Jobs.jsx";
 import PostResume from "./components/Jobs/PostResume.jsx";
 import CurrentOpening from "./components/Jobs/Openings/Opening.jsx";
@@ -13,23 +13,34 @@ import College from "./pages/College.jsx";
 import CampusToCubicle from "./pages/CampusToCubicle.jsx";
 import Affiliate from "./pages/Affiliate.jsx";
 import Contact from "./pages/Contact.jsx";
-import Header from "./components/Header/Header.jsx"; // Import Header
-import Footer from "./components/Footer.jsx"; // Import Footer
+import Header from "./components/Header/Header.jsx";
+import Footer from "./components/Footer.jsx";
 import CollegeForm from "./components/CampusToCubicle/CollegeForm.jsx";
 import CompanyForm from "./components/CampusToCubicle/CompanyForm.jsx";
 import OnCampus from "./components/Service/OnCampus/OnCampus.jsx";
 import OffCampus from "./components/Service/OffCampus/OffCampus.jsx";
-import Seminar from "./components/Service/Seminar/Seminar.jsx"
-import Counselling from "./components/Service/Counselling/Counselling.jsx"
-import Workforce from "./components/Service/Workforce/Workforce.jsx"
-import CareerCraft from "./components/Service/CareerCraft/CareerCraft.jsx"
+import Seminar from "./components/Service/Seminar/Seminar.jsx";
+import Counselling from "./components/Service/Counselling/Counselling.jsx";
+import Workforce from "./components/Service/Workforce/Workforce.jsx";
+import CareerCraft from "./components/Service/CareerCraft/CareerCraft.jsx";
 import AffiliateForm from "./components/Affiliate/AffiliateForm.jsx";
-import OpeningForm from "./components/Jobs/Openings/Openingform.jsx";
 
 
 
+const NotFound = () => <div>Page Not Found</div>;
 
-const NotFound = () => <div>Page Not Found</div>; // Fallback component
+const Layout = ({ children }) => {
+  const location = useLocation();
+  const isAffiliateDashboard = location.pathname.startsWith('/affiliate-dashboard');
+
+  return (
+    <>
+      {isAffiliateDashboard ? <AffiliateHeader /> : <Header />}
+      {children}
+      {isAffiliateDashboard ? <AffiliateFooter /> : <Footer />}
+    </>
+  );
+};
 
 const App = () => {
   return (
@@ -51,7 +62,6 @@ const App = () => {
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/jobs/post-resume" element={<PostResume />} />
           <Route path="/jobs/current-opening" element={<CurrentOpening />} />
-          <Route path="/jobs/opening-form" element={<OpeningForm />} />
 
           <Route path="/employer" element={<Employer />} />
 

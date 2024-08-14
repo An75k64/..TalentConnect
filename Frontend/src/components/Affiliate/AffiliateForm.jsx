@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -10,20 +10,34 @@ import {
   FormLabel,
   Heading,
   Input,
+  InputGroup,
+  InputRightElement,
   Stack,
   Text,
   Textarea,
   useTheme,
   Select,
   useToast,
-  FormErrorMessage 
+  FormErrorMessage,
+  IconButton,
 } from '@chakra-ui/react';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 
 // Validation schema with Yup
 const validationSchema = Yup.object({
   role: Yup.string().required('Role is required'),
   fullName: Yup.string().required('Full Name is required'),
   email: Yup.string().email('Invalid email address').required('Email Address is required'),
+  password: Yup.string()
+    .required('Password is required')
+    .min(8, 'Password must be at least 8 characters')
+    .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .matches(/[0-9]/, 'Password must contain at least one number')
+    .matches(/[\W_]/, 'Password must contain at least one special character'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    .required('Confirm Password is required'),
   phoneNumber: Yup.string().required('Phone Number is required'),
   collegeName: Yup.lazy(role =>
     role === 'Student' ? Yup.string().required('College Name is required') : Yup.string()
@@ -44,6 +58,29 @@ const validationSchema = Yup.object({
   comments: Yup.string()
 });
 
+const PasswordInput = (props) => {
+  const [show, setShow] = useState(false);
+
+  const handleClick = () => setShow(!show);
+
+  return (
+    <InputGroup>
+      <InputRightElement>
+        <IconButton
+          aria-label={show ? 'Hide password' : 'Show password'}
+          icon={show ? <ViewOffIcon /> : <ViewIcon />}
+          onClick={handleClick}
+          variant="link"
+        />
+      </InputRightElement>
+      <Input
+        type={show ? 'text' : 'password'}
+        {...props}
+      />
+    </InputGroup>
+  );
+};
+
 const AffiliateForm = () => {
   const theme = useTheme();
   const toast = useToast();
@@ -53,6 +90,8 @@ const AffiliateForm = () => {
       role: '',
       fullName: '',
       email: '',
+      password: '',
+      confirmPassword: '',
       phoneNumber: '',
       collegeName: '',
       courseDetails: '',
@@ -171,7 +210,7 @@ const AffiliateForm = () => {
             textAlign="center"
             color="blue.400"
           >
-            Apply to Become an Affiliate
+            Register to Become an Affiliate
           </Text>
 
           <Stack spacing={4}>
@@ -215,12 +254,35 @@ const AffiliateForm = () => {
               <FormErrorMessage>{formik.touched.email && formik.errors.email}</FormErrorMessage>
             </FormControl>
 
+            {/* Password */}
+            <FormControl isInvalid={formik.touched.password && formik.errors.password}>
+              <FormLabel>Password</FormLabel>
+              <PasswordInput
+                name="password"
+                placeholder="Enter your password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+              />
+              <FormErrorMessage>{formik.touched.password && formik.errors.password}</FormErrorMessage>
+            </FormControl>
+
+            {/* Confirm Password */}
+            <FormControl isInvalid={formik.touched.confirmPassword && formik.errors.confirmPassword}>
+              <FormLabel>Confirm Password</FormLabel>
+              <PasswordInput
+                name="confirmPassword"
+                placeholder="Confirm your password"
+                value={formik.values.confirmPassword}
+                onChange={formik.handleChange}
+              />
+              <FormErrorMessage>{formik.touched.confirmPassword && formik.errors.confirmPassword}</FormErrorMessage>
+            </FormControl>
+
             {/* Phone Number */}
             <FormControl isInvalid={formik.touched.phoneNumber && formik.errors.phoneNumber}>
               <FormLabel>Phone Number</FormLabel>
               <Input
                 name="phoneNumber"
-                type="tel"
                 placeholder="Enter your phone number"
                 value={formik.values.phoneNumber}
                 onChange={formik.handleChange}
@@ -228,14 +290,14 @@ const AffiliateForm = () => {
               <FormErrorMessage>{formik.touched.phoneNumber && formik.errors.phoneNumber}</FormErrorMessage>
             </FormControl>
 
-            {/* Role-Specific Fields */}
+            {/* Conditional Fields Based on Role */}
             {formik.values.role === 'Student' && (
               <>
                 <FormControl isInvalid={formik.touched.collegeName && formik.errors.collegeName}>
                   <FormLabel>College Name</FormLabel>
                   <Input
                     name="collegeName"
-                    placeholder="Enter your college's name"
+                    placeholder="Enter your college name"
                     value={formik.values.collegeName}
                     onChange={formik.handleChange}
                   />
@@ -261,7 +323,7 @@ const AffiliateForm = () => {
                   <FormLabel>Company Name</FormLabel>
                   <Input
                     name="companyName"
-                    placeholder="Enter your company's name"
+                    placeholder="Enter your company name"
                     value={formik.values.companyName}
                     onChange={formik.handleChange}
                   />
@@ -282,12 +344,18 @@ const AffiliateForm = () => {
 
                 <FormControl isInvalid={formik.touched.companySize && formik.errors.companySize}>
                   <FormLabel>Company Size</FormLabel>
-                  <Input
+                  <Select
                     name="companySize"
-                    placeholder="Enter your company's size"
+                    placeholder="Select company size"
                     value={formik.values.companySize}
                     onChange={formik.handleChange}
-                  />
+                  >
+                    <option value="1-10">1-10</option>
+                    <option value="11-50">11-50</option>
+                    <option value="51-200">51-200</option>
+                    <option value="201-500">201-500</option>
+                    <option value="500+">500+</option>
+                  </Select>
                   <FormErrorMessage>{formik.touched.companySize && formik.errors.companySize}</FormErrorMessage>
                 </FormControl>
               </>
@@ -295,34 +363,31 @@ const AffiliateForm = () => {
 
             {/* Motivation */}
             <FormControl isInvalid={formik.touched.motivation && formik.errors.motivation}>
-              <FormLabel>Motivation</FormLabel>
+              <FormLabel>Why do you want to join the TalentConnect Affiliate Program?</FormLabel>
               <Textarea
                 name="motivation"
-                placeholder="Why do you want to join the Affiliate Program?"
+                placeholder="Describe your motivation to join the program"
                 value={formik.values.motivation}
                 onChange={formik.handleChange}
               />
               <FormErrorMessage>{formik.touched.motivation && formik.errors.motivation}</FormErrorMessage>
             </FormControl>
 
-            {/* Additional Comments */}
-            <FormControl>
-              <FormLabel>Additional Comments (Optional)</FormLabel>
+            {/* Comments */}
+            <FormControl isInvalid={formik.touched.comments && formik.errors.comments}>
+              <FormLabel>Additional Comments</FormLabel>
               <Textarea
                 name="comments"
-                placeholder="Enter any additional comments or questions"
+                placeholder="Any additional comments or information"
                 value={formik.values.comments}
                 onChange={formik.handleChange}
               />
+              <FormErrorMessage>{formik.touched.comments && formik.errors.comments}</FormErrorMessage>
             </FormControl>
 
             {/* Submit Button */}
-            <Button
-              type="submit"
-              colorScheme="blue"
-              isLoading={formik.isSubmitting}
-            >
-              Submit
+            <Button colorScheme="blue" type="submit" mt={4}>
+              Register
             </Button>
           </Stack>
         </form>

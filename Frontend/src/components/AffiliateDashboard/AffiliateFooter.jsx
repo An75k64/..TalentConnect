@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   chakra,
@@ -10,7 +11,7 @@ import {
 import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { BsLinkedin } from "react-icons/bs"; // Import LinkedIn icon
 import { HashLink as Link } from "react-router-hash-link"; // Import HashLink
-import logo from "../assets/images/Logo/logo.png"; // Adjust the path if needed
+import logo from "../../assets/images/Logo/logo.png"; // Adjust the path if needed
 
 const SocialButton = ({ children, label, href }) => {
   return (
@@ -31,7 +32,7 @@ const SocialButton = ({ children, label, href }) => {
   );
 };
 
-export default function Footer() {
+export default function AffiliateFooter() {
   return (
     <Box
       bg={useColorModeValue("gray.50", "gray.800")}
@@ -58,82 +59,56 @@ export default function Footer() {
             </Text>
             <Text fontWeight="bold">Follow Us</Text>
             <Stack direction="row" spacing={4}>
-              <SocialButton label="Follow us on Instagram" href="#">
+              <SocialButton label="Follow us on Instagram" href="https://www.instagram.com">
                 <FaInstagram />
               </SocialButton>
-              <SocialButton label="Follow us on LinkedIn" href="#">
+              <SocialButton label="Follow us on LinkedIn" href="https://www.linkedin.com">
                 <BsLinkedin />
               </SocialButton>
-              <SocialButton label="Follow us on Twitter" href="#">
+              <SocialButton label="Follow us on Twitter" href="https://twitter.com">
                 <FaTwitter />
               </SocialButton>
-              <SocialButton label="Subscribe to us on YouTube" href="#">
+              <SocialButton label="Subscribe to us on YouTube" href="https://www.youtube.com">
                 <FaYoutube />
               </SocialButton>
             </Stack>
           </Stack>
           <Stack spacing={4}>
-            <Text fontWeight="bold" as="a" href="/">
-              Home
+            <Text fontWeight="bold">
+              <a href="/Home">Home</a>
             </Text>
-            <Text fontWeight="bold" as={Link} to="/#our-services">
-              Services
+            <Text fontWeight="bold">
+              <Link to="/">DashBoard</Link>
             </Text>
-            <Stack spacing={1}>
-              <Text as={Link} to="/oncampus">
-                OnCampus
+            
+          </Stack>
+          <Stack spacing={4}>
+            <Text fontWeight="bold">
+              <Link to="/">Referrals</Link>
+            </Text>
+           
+            <Stack spacing={4}>
+              <Text fontWeight="bold">
+                <Link to="/">Earning</Link>
               </Text>
-              <Text as={Link} to="/offcampus">
-                OffCampus
-              </Text>
-              <Text as={Link} to="/seminar">
-                Seminar
-              </Text>
-              <Text as={Link} to="/counselling">
-                Counselling
-              </Text>
-              <Text as={Link} to="/careercraft">
-                CareerCraft
-              </Text>
-              <Text as={Link} to="/workforce">
-                Workforce Provider [Staffing Solution]
+              <Text fontWeight="bold">
+                <Link to="/Resources">Resources</Link>
               </Text>
             </Stack>
           </Stack>
           <Stack spacing={4}>
-            <Text fontWeight="bold" as={Link} to="/#ready-to-transform">
-              Jobs
-            </Text>
-            <Stack spacing={1}>
-              <Text as={Link} to="/jobs/current-opening">
-                Current Openings
-              </Text>
-              <Text as={Link} to="/jobs/post-resume">
-                Post Your Resume
-              </Text>
-            </Stack>
-            <Stack spacing={4}>
-              <Text fontWeight="bold" as={Link} to="/employer">
-                Employer
-              </Text>
-              <Text fontWeight="bold" as={Link} to="/college">
-                College
-              </Text>
-            </Stack>
-          </Stack>
-          <Stack spacing={4}>
-            <Text fontWeight="bold" as={Link} to="/campus-to-cubicle">
-              Campus to Cubicle
+            <Text fontWeight="bold">
+              <Link to="/support">Support</Link>
             </Text>
             <Stack spacing={4}>
-              <Text fontWeight="bold" as={Link} to="/affiliate">
-                Affiliate
+              <Text fontWeight="bold">
+                <Link to="/profile">Profile</Link>
               </Text>
-              <Text fontWeight="bold" as={Link} to="/contact">
-                Contact Us
+              <Text fontWeight="bold">
+                <Link to="/setting">Settings</Link>
               </Text>
-               <Text fontWeight="bold" as={Link} to="/login">
-                Sign In
+              <Text fontWeight="bold">
+                <Link to="/logout">Logout</Link>
               </Text>
             </Stack>
           </Stack>
